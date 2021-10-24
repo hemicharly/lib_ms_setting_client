@@ -1,10 +1,14 @@
 {
   "name": "ms_settings_client",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Module library client register with ms_setting",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
-  "keywords": ["typescript", "setting", "environment"],
+  "keywords": [
+    "typescript",
+    "setting",
+    "environment"
+  ],
   "author": "Hemicharly Thiago",
   "license": "ISC",
   "repository": {
