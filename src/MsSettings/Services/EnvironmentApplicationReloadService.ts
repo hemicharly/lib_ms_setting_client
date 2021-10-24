@@ -1,11 +1,14 @@
 import {AxiosInstanceClient} from "../Configure/AxiosInstanceClient";
 import {GetEnvironmentResponse} from "../Response/GetEnvironmentResponse";
+import {logger} from '../Utils/Logger';
 
 export class EnvironmentApplicationReloadService {
   constructor(private readonly urlGetSettings: string) {
   }
 
   public async invoke(): Promise<void> {
+    logger.info(`MsSettingClient get [URL_SETTINGS]: ${this.urlGetSettings}`);
+
     const { data } = await AxiosInstanceClient.get(`${this.urlGetSettings}`);
     const response = <GetEnvironmentResponse>data;
 
@@ -13,8 +16,10 @@ export class EnvironmentApplicationReloadService {
       throw new Error('MsSettings environment not exist');
     }
 
+    logger.info('Started reload settings environment');
     await EnvironmentApplicationReloadService.reloadSettings(response.settingsGlobal, response.settingsApplication);
     await EnvironmentApplicationReloadService.reloadSecrets(response.secretsGlobal, response.secretsApplication);
+    logger.info('Finished reload settings environment');
   }
 
   private static async reloadSettings(settingsGlobal: any, settingsApplication: any): Promise<void> {

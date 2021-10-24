@@ -1,10 +1,12 @@
 import EventSource from 'eventsource';
 import { EnvironmentApplicationReloadService } from '../Services/EnvironmentApplicationReloadService';
+import {logger, loggerError} from '../Utils/Logger';
 
 export class EventSourceClient {
 
   constructor(private readonly urlSubscribe: string, private readonly applicationUuid: string,  private readonly applicationName: string, private readonly service: EnvironmentApplicationReloadService) {
     const client = new EventSource(`${this.urlSubscribe}`);
+    logger.info(`MsSettingClient subscribe [APPLICATION_UUID]: ${applicationUuid} [APPLICATION_NAME]: ${applicationName}`);
 
     client.onmessage = async (message:MessageEvent) => {
       try {
@@ -16,12 +18,12 @@ export class EventSourceClient {
           await this.service.invoke();
         }
       } catch (error) {
-        console.error(error);
+        loggerError(error);
       }
     };
 
     client.onerror = (error: MessageEvent) => {
-      console.error(error);
+      loggerError(error);
     };
   }
 }

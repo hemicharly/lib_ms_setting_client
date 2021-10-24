@@ -24,7 +24,8 @@
   ],
   "dependencies": {
     "axios": "0.22.0",
-    "eventsource": "1.1.0"
+    "eventsource": "1.1.0",
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "@types/node": "16.11.4",
