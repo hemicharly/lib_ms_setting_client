@@ -1,0 +1,26 @@
+{
+  "name": "ms_settings_client",
+  "version": "1.0.0",
+  "description": "Module library client register with ms_setting",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "prepare": "npm run build",
+    "build": "tsc"
+  },
+  "files": [
+    "lib"
+  ],
+  "dependencies": {
+    "axios": "0.22.0",
+    "eventsource": "1.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "16.11.4",
+    "@types/eventsource": "1.1.7",
+    "typescript": "4.4.4"
+  }
+}
