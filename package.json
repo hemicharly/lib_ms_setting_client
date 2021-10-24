@@ -4,9 +4,13 @@
   "description": "Module library client register with ms_setting",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
-  "keywords": [],
-  "author": "",
+  "keywords": ["typescript", "setting", "environment"],
+  "author": "Hemicharly Thiago",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hemicharly/lib_ms_setting_client.git"
+  },
   "scripts": {
     "prepare": "npm run build",
     "build": "tsc"
