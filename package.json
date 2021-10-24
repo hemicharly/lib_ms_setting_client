@@ -1,6 +1,6 @@
 {
   "name": "ms_settings_client",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Module library client register with ms_setting",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
