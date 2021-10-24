@@ -1,0 +1,23 @@
+name: CI-BUILDER-RELEASE
+on:
+  push:
+    branches: [ main ]
+jobs:
+  release:
+    name: release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: 'Generator version'
+        id: version-bump
+        uses: 'phips28/gh-action-bump-version@master'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          target-branch: 'main'
+          tag-prefix:  'v'
+          commit-message: 'Release {{version}}'
+          patch-wording: 'bugfix,bugfix:,hotfix,hotfix:,fix,fix:'
+          minor-wording: 'feat,feat:,add,Add,new'
