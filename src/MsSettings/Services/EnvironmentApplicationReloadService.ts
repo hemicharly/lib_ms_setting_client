@@ -35,7 +35,7 @@ export class EnvironmentApplicationReloadService {
   }
 
   private static async reloadSettingsProcessEnv(key: string, settings: any): Promise<void> {
-    if (process.env[key] && settings[key] && settings[key] !== '') {
+    if (settings[key] && settings[key] !== '') {
       process.env[key] = settings[key];
     }
   }
@@ -57,7 +57,7 @@ export class EnvironmentApplicationReloadService {
   }
 
   private static async reloadSecretsProcessEnv(key: string, secrets: any): Promise<void> {
-    if (process.env[key] && secrets[key] && secrets[key] !== '') {
+    if (secrets[key] && secrets[key] !== '') {
       process.env[key] = secrets[key];
     }
   }
