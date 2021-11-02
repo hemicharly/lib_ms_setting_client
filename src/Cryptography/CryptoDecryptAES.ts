@@ -33,7 +33,9 @@ export class CryptoDecryptAES {
   }
 
   private static async builderSecretKey(secretKey: string): Promise<CryptoJS.lib.WordArray> {
-    return CryptoJS.enc.Base64.parse(secretKey.replace(/[^a-zA-Z0-9]/g, ''));
+    const secretKeyValue = secretKey.replace(/[^a-zA-Z0-9]/g, '');
+    console.log({secretKeyValue, secretKey});
+    return CryptoJS.enc.Base64.parse(secretKeyValue);
   }
 
   private static async randomIv(): Promise<string> {
