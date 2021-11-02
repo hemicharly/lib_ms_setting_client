@@ -3,4 +3,5 @@ export interface ConfigMsSettingClient {
     urlGetSettings: string;
     applicationUuid: string;
     applicationName: string;
+    secretKeyGlobal: string;
 }

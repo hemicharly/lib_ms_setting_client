@@ -45,12 +45,13 @@ export class EnvironmentApplicationReloadService {
   private static async reloadSecrets(secretsGlobal: any, secretsApplication: any, applicationUuid: string): Promise<void> {
     if (secretsGlobal) {
       const secretsGlobalKeys = Object.keys(secretsGlobal);
+      const secretKeyGlobal = String(process.env.SECRET_KEY_GLOBAL);
       for (const key of secretsGlobalKeys) {
-        await EnvironmentApplicationReloadService.reloadSecretsProcessEnv(key, secretsGlobal, applicationUuid);
+        await EnvironmentApplicationReloadService.reloadSecretsProcessEnv(key, secretsGlobal, secretKeyGlobal);
       }
     }
 
-    if (secretsApplication) {
+    if (secretsApplication && applicationUuid) {
       const secretsApplicationKeys = Object.keys(secretsApplication);
       for (const key of secretsApplicationKeys) {
         await EnvironmentApplicationReloadService.reloadSecretsProcessEnv(key, secretsApplication, applicationUuid);
@@ -58,9 +59,9 @@ export class EnvironmentApplicationReloadService {
     }
   }
 
-  private static async reloadSecretsProcessEnv(key: string, secrets: any, applicationUuid: string): Promise<void> {
+  private static async reloadSecretsProcessEnv(key: string, secrets: any, secretKey: string): Promise<void> {
     if (secrets[key] && secrets[key] !== '') {
-      process.env[key] = await cryptoDecryptAES.decrypt(secrets[key], applicationUuid);
+      process.env[key] = await cryptoDecryptAES.decrypt(secrets[key], secretKey);
     }
   }
 }
