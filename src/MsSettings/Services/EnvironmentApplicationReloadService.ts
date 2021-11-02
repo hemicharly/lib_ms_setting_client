@@ -1,6 +1,8 @@
 import {AxiosInstanceClient} from "../Configure/AxiosInstanceClient";
 import {GetEnvironmentResponse} from "../Response/GetEnvironmentResponse";
 import {logger} from '../Utils/Logger';
+import {cryptoDecryptAES} from "../../Cryptography";
+
 
 export class EnvironmentApplicationReloadService {
   constructor(private readonly urlGetSettings: string) {
@@ -12,13 +14,13 @@ export class EnvironmentApplicationReloadService {
     const { data } = await AxiosInstanceClient.get(`${this.urlGetSettings}`);
     const response = <GetEnvironmentResponse>data;
 
-    if (!response || !response.settingsGlobal || !response.settingsApplication) {
+    if (!response || response.applicationUuid || !response.settingsGlobal || !response.settingsApplication) {
       throw new Error('MsSettings environment not exist');
     }
 
     logger.info('Started reload settings environment');
     await EnvironmentApplicationReloadService.reloadSettings(response.settingsGlobal, response.settingsApplication);
-    await EnvironmentApplicationReloadService.reloadSecrets(response.secretsGlobal, response.secretsApplication);
+    await EnvironmentApplicationReloadService.reloadSecrets(response.secretsGlobal, response.secretsApplication, response.applicationUuid);
     logger.info('Finished reload settings environment');
   }
 
@@ -40,25 +42,25 @@ export class EnvironmentApplicationReloadService {
     }
   }
 
-  private static async reloadSecrets(secretsGlobal: any, secretsApplication: any): Promise<void> {
+  private static async reloadSecrets(secretsGlobal: any, secretsApplication: any, applicationUuid: string): Promise<void> {
     if (secretsGlobal) {
       const secretsGlobalKeys = Object.keys(secretsGlobal);
       for (const key of secretsGlobalKeys) {
-        await EnvironmentApplicationReloadService.reloadSecretsProcessEnv(key, secretsGlobal);
+        await EnvironmentApplicationReloadService.reloadSecretsProcessEnv(key, secretsGlobal, applicationUuid);
       }
     }
 
     if (secretsApplication) {
       const secretsApplicationKeys = Object.keys(secretsApplication);
       for (const key of secretsApplicationKeys) {
-        await EnvironmentApplicationReloadService.reloadSecretsProcessEnv(key, secretsApplication);
+        await EnvironmentApplicationReloadService.reloadSecretsProcessEnv(key, secretsApplication, applicationUuid);
       }
     }
   }
 
-  private static async reloadSecretsProcessEnv(key: string, secrets: any): Promise<void> {
+  private static async reloadSecretsProcessEnv(key: string, secrets: any, applicationUuid: string): Promise<void> {
     if (secrets[key] && secrets[key] !== '') {
-      process.env[key] = secrets[key];
+      process.env[key] = await cryptoDecryptAES.decrypt(secrets[key], applicationUuid);
     }
   }
 }
