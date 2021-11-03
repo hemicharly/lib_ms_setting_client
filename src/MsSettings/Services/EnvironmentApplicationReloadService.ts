@@ -14,7 +14,7 @@ export class EnvironmentApplicationReloadService {
     const { data } = await AxiosInstanceClient.get(`${this.urlGetSettings}`);
     const response = <GetEnvironmentResponse>data;
 
-    if (!response || response.applicationUuid || !response.settingsGlobal || !response.settingsApplication) {
+    if (!response || !response.applicationUuid || !response.settingsGlobal || !response.settingsApplication) {
       throw new Error('MsSettings environment not exist');
     }
 
