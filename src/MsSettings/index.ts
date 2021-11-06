@@ -20,7 +20,7 @@ export default class MsSettings {
         }
 
         /*SERVICE: Environment application reload*/
-        this.service = new EnvironmentApplicationReloadService(urlGetSettings);
+        this.service = new EnvironmentApplicationReloadService(urlGetSettings, this.applicationUuid);
 
         /*REGISTER: EventSource client*/
         new EventSourceClient(urlSubscribe, applicationUuid, applicationName, this.service);

@@ -17,7 +17,9 @@
   },
   "scripts": {
     "prepare": "npm run build",
-    "build": "tsc"
+    "clean": "rm -rf lib/*",
+    "build": "tsc",
+    "lib": "yarn prepare && yarn clean && yarn build && git add lib/*"
   },
   "files": [
     "lib"

@@ -1,6 +1,7 @@
 export declare class EnvironmentApplicationReloadService {
     private readonly urlGetSettings;
-    constructor(urlGetSettings: string);
+    private readonly applicationUuid;
+    constructor(urlGetSettings: string, applicationUuid: string);
     invoke(): Promise<void>;
     private static reloadSettings;
     private static reloadSettingsProcessEnv;
